@@ -51,7 +51,6 @@
     
     showParams = [[AlibcTradeShowParams alloc] init];
     showParams.openType = AlibcOpenTypeAuto;
-    
     //设置全局的app标识，在电商模块里等同于isv_code
     //没有申请过isv_code的接入方,默认不需要调用该函数
     //[[AlibcTradeSDK sharedInstance] setISVCode:@"your_isv_code"];
@@ -101,6 +100,7 @@
 - (void)show: (NSDictionary *)param callback: (RCTResponseSenderBlock)callback
 {
     NSString *type = param[@"type"];
+    
     id<AlibcTradePage> page;
     if ([type isEqualToString:@"detail"]) {
         page = [AlibcTradePageFactory itemDetailPage:(NSString *)param[@"payload"]];
@@ -119,7 +119,14 @@
         RCTLog(@"not implement");
         return;
     }
-    
+    NSString *openType = param[@"openType"];
+    if([openType isEqualToString:@"native"]) {
+        showParams.openType = AlibcOpenTypeNative;
+    } else if([openType isEqualToString:@"h5"]) {
+        showParams.openType = AlibcOpenTypeH5;
+    } else {
+        showParams.openType = AlibcOpenTypeAuto;
+    }
     [self _show:page callback:callback];
 }
 
@@ -149,6 +156,14 @@
 
 - (void)showInWebView: (AlibcWebView *)webView param:(NSDictionary *)param
 {
+    NSString *openType = param[@"openType"];
+    if([openType isEqualToString:@"native"]) {
+        showParams.openType = AlibcOpenTypeNative;
+    } else if([openType isEqualToString:@"h5"]) {
+        showParams.openType = AlibcOpenTypeH5;
+    } else {
+        showParams.openType = AlibcOpenTypeAuto;
+    }
     NSString *type = param[@"type"];
     id<AlibcTradePage> page;
     if ([type isEqualToString:@"detail"]) {
