@@ -195,6 +195,15 @@ public class RNAlibcSdkModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void show(final ReadableMap param, final Callback callback) {
     String type = param.getString("type");
+    String openType = param.getString("openType");
+    switch (openType) {
+        case "native":
+            alibcShowParams = new AlibcShowParams(OpenType.Native, false);
+            break;
+        case "h5":
+            alibcShowParams = new AlibcShowParams(OpenType.H5, false);
+            break;
+    }
     switch(type){
       case "detail":
         this._show(new AlibcDetailPage(param.getString("payload")), callback);
