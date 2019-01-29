@@ -38,7 +38,7 @@ export class AlibcTradeWebView extends React.Component {
   goForward() {
     UIManager.dispatchViewManagerCommand(
       this._getWebViewBridgeHandle(),
-      UIManager.RCTWebViewBridge.Commands.goForward,
+      UIManager.AlibcTradeWebView.Commands.goForward,
       null
     );
   }
@@ -54,7 +54,7 @@ export class AlibcTradeWebView extends React.Component {
   reload() {
     UIManager.dispatchViewManagerCommand(
       this._getWebViewBridgeHandle(),
-      UIManager.RCTWebViewBridge.Commands.reload,
+      UIManager.AlibcTradeWebView.Commands.reload,
       null
     );
   }
