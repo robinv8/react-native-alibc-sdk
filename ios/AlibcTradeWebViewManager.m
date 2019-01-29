@@ -79,6 +79,7 @@ RCT_EXPORT_METHOD(reload:(nonnull NSNumber *)reactTag)
 {
     webView.onStateChange(@{
                             @"loading": @(true),
+                            @"url": webView.request.URL.absoluteString,
                             @"canGoBack": @([webView canGoBack]),
                             });
 }
@@ -87,6 +88,7 @@ RCT_EXPORT_METHOD(reload:(nonnull NSNumber *)reactTag)
 {
     webView.onStateChange(@{
                             @"loading": @(false),
+                            @"url": webView.request.URL.absoluteString,
                             @"canGoBack": @([webView canGoBack]),
                             @"title": [webView stringByEvaluatingJavaScriptFromString:@"document.title"],
                             });
