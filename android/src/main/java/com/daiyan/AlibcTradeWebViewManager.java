@@ -53,6 +53,7 @@ public class AlibcTradeWebViewManager extends SimpleViewManager<WebView> {
 			super.onPageFinished(webView, url);
 			WritableMap event = Arguments.createMap();
 			event.putBoolean("loading", false);
+			event.putString("url", webView.getUrl());
 			event.putBoolean("canGoBack", webView.canGoBack());
 			event.putString("title", webView.getTitle());
 			ReactContext reactContext = ((AlibcWebView)webView).getReactContext();
@@ -64,6 +65,7 @@ public class AlibcTradeWebViewManager extends SimpleViewManager<WebView> {
 			super.onPageStarted(webView, url, favicon);
 			WritableMap event = Arguments.createMap();
 			event.putBoolean("loading", true);
+			event.putString("url", webView.getUrl());
 			event.putBoolean("canGoBack", webView.canGoBack());
 			ReactContext reactContext = ((AlibcWebView)webView).getReactContext();
 			reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(webView.getId(), "onStateChange", event);
