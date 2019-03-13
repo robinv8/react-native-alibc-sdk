@@ -150,7 +150,12 @@ public class RNAlibcSdkModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void isLogin(final Callback callback) {
-      callback.invoke(null, AlibcLogin.getInstance().isLogin());
+      try {
+          callback.invoke(null, AlibcLogin.getInstance().isLogin());
+      } catch (Exception e) {
+          callback.invoke(null, false);
+          e.printStackTrace();
+      }
   }
 
   @ReactMethod
