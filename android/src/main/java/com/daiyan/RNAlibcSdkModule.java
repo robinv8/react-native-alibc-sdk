@@ -150,17 +150,19 @@ public class RNAlibcSdkModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void isLogin(final Callback callback) {
+    callback.invoke(null, isBcLogin());
+  }
+  public boolean isBcLogin() {
       try {
-          callback.invoke(null, AlibcLogin.getInstance().isLogin());
+          return AlibcLogin.getInstance().isLogin();
       } catch (Exception e) {
-          callback.invoke(null, false);
           e.printStackTrace();
       }
+      return false;
   }
-
   @ReactMethod
   public void getUser(final Callback callback) {
-      if (AlibcLogin.getInstance().isLogin()) {
+      if (isBcLogin()) {
         Session session = AlibcLogin.getInstance().getSession();
         WritableMap map = Arguments.createMap();
         map.putString("nick", session.nick);
