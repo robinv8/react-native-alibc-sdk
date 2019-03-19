@@ -10,10 +10,15 @@
 #import <React/RCTLog.h>
 
 @implementation AlibcWebView
-
+{
+    UIWebView *_webView;
+}
 - (void)setParam:(NSDictionary *)param
 {
     [[AlibcSdkBridge sharedInstance] showInWebView:self param:param];
 }
-
+- (void)injectJavaScript:(NSString *)script
+{
+    [_webView stringByEvaluatingJavaScriptFromString:script];
+}
 @end

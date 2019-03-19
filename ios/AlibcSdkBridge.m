@@ -9,9 +9,9 @@
 #import "AlibcSdkBridge.h"
 #import "AlibcWebView.h"
 #import <React/RCTLog.h>
+#import "MyConnectionURLProtocol.h"
 
 #define NOT_LOGIN (@"not login")
-
 @implementation AlibcSdkBridge {
     AlibcTradeTaokeParams *taokeParams;
     AlibcTradeShowParams *showParams;
@@ -35,7 +35,7 @@
         NSDictionary *ret = @{@"code": @(error.code), @"msg":error.description};
         callback(@[ret]);
     }];
-    
+        
     // 初始化AlibabaAuthSDK
     [[ALBBSDK sharedInstance] ALBBSDKInit];
     
@@ -57,6 +57,9 @@
     
     // 设置全局配置，是否强制使用h5
     [[AlibcTradeSDK sharedInstance] setIsForceH5:forceH5];
+    
+    [NSURLProtocol registerClass:[MyConnectionURLProtocol class]];
+
 }
 
 - (void)login: (RCTResponseSenderBlock)callback

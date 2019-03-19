@@ -26,6 +26,7 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_VIEW_PROPERTY(param, NSDictionary)
 RCT_EXPORT_VIEW_PROPERTY(onTradeResult, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onStateChange, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(injectedJavaScript, NSString)
 
 RCT_EXPORT_METHOD(goBack:(nonnull NSNumber *)reactTag)
 {
@@ -59,6 +60,17 @@ RCT_EXPORT_METHOD(reload:(nonnull NSNumber *)reactTag)
             RCTLogError(@"Invalid view returned from registry, expecting AlibcWebView, got: %@", view);
         } else {
             [view reload];
+        }
+    }];
+}
+RCT_EXPORT_METHOD(injectJavaScript:(nonnull NSNumber *)reactTag script:(NSString *)script)
+{
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, AlibcWebView *> *viewRegistry) {
+        AlibcWebView *view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[AlibcWebView class]]) {
+            RCTLogError(@"Invalid view returned from registry, expecting RNCUIWebView, got: %@", view);
+        } else {
+            [view injectJavaScript:script];
         }
     }];
 }

@@ -45,6 +45,5 @@ RCT_EXPORT_METHOD(show: (NSDictionary *)param callback: (RCTResponseSenderBlock)
     [[AlibcSdkBridge sharedInstance] show:param callback:callback];
 }
 
-
 @end
   

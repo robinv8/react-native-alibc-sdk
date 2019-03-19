@@ -4,7 +4,6 @@
 #else
 #import "RCTBridgeModule.h"
 #endif
-
 @interface RNAlibcSdk : NSObject <RCTBridgeModule>
 
 @end
