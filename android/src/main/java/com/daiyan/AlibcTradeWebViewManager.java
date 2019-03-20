@@ -65,8 +65,6 @@ public class AlibcTradeWebViewManager extends SimpleViewManager<WebView> {
 
       @JavascriptInterface
       public void postMessage(String message) {
-
-        System.out.println("123451111111111111");
         mContext.onMessage(message);
       }
     }

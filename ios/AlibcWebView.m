@@ -17,8 +17,4 @@
 {
     [[AlibcSdkBridge sharedInstance] showInWebView:self param:param];
 }
-- (void)injectJavaScript:(NSString *)script
-{
-    [_webView stringByEvaluatingJavaScriptFromString:script];
-}
 @end

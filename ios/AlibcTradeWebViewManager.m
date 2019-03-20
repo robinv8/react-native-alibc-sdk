@@ -5,13 +5,16 @@
 #import "AlibcWebView.h"
 
 #import <React/RCTLog.h>
-
+#import "RNEventEmitter.h"
 @interface AlibcTradeWebViewManager : RCTViewManager<UIWebViewDelegate>
+@property (nonatomic, assign) BOOL messagingEnabled;
 
 @end
 
 @implementation AlibcTradeWebViewManager
-
+{
+    UIWebView *_webView;
+}
 RCT_EXPORT_MODULE()
 
 - (UIView *)view
@@ -70,13 +73,25 @@ RCT_EXPORT_METHOD(injectJavaScript:(nonnull NSNumber *)reactTag script:(NSString
         if (![view isKindOfClass:[AlibcWebView class]]) {
             RCTLogError(@"Invalid view returned from registry, expecting RNCUIWebView, got: %@", view);
         } else {
-            [view injectJavaScript:script];
+            [view stringByEvaluatingJavaScriptFromString: script];
         }
     }];
 }
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     RCTLog(@"Loading URL :%@",request.URL.absoluteString);
+    if ([request.URL.host isEqualToString:@"ReactNativeWebView"]) {
+        NSString *data = request.URL.query;
+        data = [data stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+        data = [data stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        NSString *source = [NSString stringWithFormat:@"window.%@.messageReceived();", @"ReactNativeWebView"];
+        
+        [webView stringByEvaluatingJavaScriptFromString:source];
+        RNEventEmitter *rnEventEmitter = [[RNEventEmitter alloc] init];
+        [rnEventEmitter onMessage: data];
+    }
+    
     NSString* url = request.URL.absoluteString;
     if ([url hasPrefix:@"http://"]  ||
             [url hasPrefix:@"https://"] ||
@@ -95,9 +110,34 @@ RCT_EXPORT_METHOD(injectJavaScript:(nonnull NSNumber *)reactTag script:(NSString
                             @"canGoBack": @([webView canGoBack]),
                             });
 }
-
 - (void)webViewDidFinishLoad:(AlibcWebView *)webView
 {
+    if (YES) {
+        NSString *source = [NSString stringWithFormat:
+                            @"(function() {"
+                            "  var messageQueue = [];"
+                            "  var messagePending = false;"
+                            
+                            "  function processQueue () {"
+                            "    if (!messageQueue.length || messagePending) return;"
+                            "    messagePending = true;"
+                            "    document.location = '%@://%@?' + encodeURIComponent(messageQueue.shift());"
+                            "  }"
+                            
+                            "  window.%@ = {"
+                            "    postMessage: function (data) {"
+                            "      messageQueue.push(String(data));"
+                            "      processQueue();"
+                            "    },"
+                            "    messageReceived: function () {"
+                            "      messagePending = false;"
+                            "      processQueue();"
+                            "    }"
+                            "  };"
+                            "})();", @"react-js-navigation", @"ReactNativeWebView", @"ReactNativeWebView"
+                            ];
+        [webView stringByEvaluatingJavaScriptFromString:source];
+    }
     webView.onStateChange(@{
                             @"loading": @(false),
                             @"url": webView.request.URL.absoluteString,

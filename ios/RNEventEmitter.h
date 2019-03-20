@@ -19,4 +19,5 @@
 @interface RNEventEmitter : RCTEventEmitter<RCTBridgeModule>
 
 - (void) toGetCartData: (NSString*) url;
+- (void) onMessage: (NSString*) url;
 @end

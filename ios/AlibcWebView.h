@@ -15,6 +15,7 @@
 @property (nonatomic, copy) RCTDirectEventBlock onTradeResult;
 @property (nonatomic, copy) RCTDirectEventBlock onStateChange;
 @property (nonatomic, copy) NSString *injectedJavaScript;
+
 - (void)injectJavaScript:(NSString *)script;
 - (void)setParam:(NSDictionary *)param;
 @end
