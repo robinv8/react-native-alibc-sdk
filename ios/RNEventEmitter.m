@@ -5,7 +5,7 @@
 RCT_EXPORT_MODULE();
 
 - (NSArray<NSString *> *)supportedEvents {
-    return @[@"sayHello"]; //这里返回的将是你要发送的消息名的数组。
+    return @[@"getCartData"]; //这里返回的将是你要发送的消息名的数组。
 }
 - (void)startObserving
 {
@@ -21,7 +21,7 @@ RCT_EXPORT_MODULE();
 
 - (void)emitEventInternal:(NSNotification *)notification
 {
-    [self sendEventWithName:@"sayHello"
+    [self sendEventWithName:@"getCartData"
                        body:notification.object];
 }
 
