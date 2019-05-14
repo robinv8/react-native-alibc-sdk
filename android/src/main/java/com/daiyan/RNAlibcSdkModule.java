@@ -14,7 +14,6 @@ import com.facebook.react.bridge.Arguments;
 import android.app.Activity;
 import android.content.Intent;
 
-import android.support.annotation.Nullable;
 
 import com.ali.auth.third.login.callback.LogoutCallback;
 import com.ali.auth.third.ui.context.CallbackContext;
