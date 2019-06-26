@@ -1,4 +1,3 @@
-
 buildscript {
     repositories {
         jcenter()
@@ -41,7 +40,7 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.2.9'
  
     //支付
-    implementation 'com.alibaba.alipay:alipaySingle:20160825@jar'
+    // compile 'com.alibaba.alipay:alipaySingle:20160825@jar'
  
     //登陆
     implementation 'com.ali.auth.sdk:alibabauth_core:1.1.4@jar'
