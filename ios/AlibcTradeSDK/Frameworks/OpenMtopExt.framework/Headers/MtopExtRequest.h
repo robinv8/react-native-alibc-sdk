@@ -91,6 +91,8 @@ typedef enum {
 
 - (id)initWithApiName:(nullable NSString *)apiName apiVersion:(nullable NSString *)apiVersion bizID:(nullable NSString *)bizID;
 
+- (void)addHttpHeader:(NSString *)value forKey:(NSString *)key;
+
 - (void)addBizParameter:(id)value forKey:(NSString *)key;
 
 - (void)addBizParameters:(NSDictionary *)kvs;

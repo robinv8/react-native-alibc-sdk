@@ -26,7 +26,7 @@
 #define ALBBNotificationH5LoginDismiss                @"ALBB_NOTIFICATION_H5_LOGIN_DISMISS"
 #endif
 
-#define ALBB_SDK_VERSION @"1.1.0.25"
+#define ALBB_SDK_VERSION @"1.1.0.32"
 
 /** 回调定义 */
 typedef void (^loginSuccessCallback)(ALBBSession *session);
@@ -62,6 +62,12 @@ failureCallback:(loginFailureCallback) onFailure;
  退出登录
  */
 - (void)logout;
+
+/**
+ * 退出登录
+ * @param callback 登出回调
+ */
+- (void)logoutWithCallback:(void(^)())callback;
 
 /**
  是否是登录URL
